@@ -1,0 +1,101 @@
+<html>
+	<head>
+		<title></title>
+		<script type="text/javascript" src="jquery_2_1_4_min.js"></script>
+		<link href="style.css" rel="stylesheet"/>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="center-wrapper" style="margin-top:30px">
+					<div id="NewAccountErrors"></div>
+						<form name="NewAccountForm" id="NewAccountForm" onsubmit="submitAccountForm(this, event);">
+							<div class="form-group">
+								<label>Name *</label>
+								<div class="">
+									<input type="text" class="form-control" name="Name"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label>Email *</label>
+								<div class="">
+									<input type="text" class="form-control" name="Email"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label>Phone *</label>
+								<div class="">
+									<input type="text" class="form-control" name="PhoneNumber"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label>Bate of birth</label>
+								<div class="">
+									<input type="text" class="form-control" name="DOB"/>
+								</div>
+							</div>	
+							<div class="form-group">
+							<input type="submit" class="btn btn-primary" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>	
+		</div>
+		<script>
+			function submitAccountForm(form, e){
+				e.preventDefault();
+				var validationResult = validateForm(form);
+            }
+
+            function validateForm(form){
+            	//$('#NewAccountForm .error').remove();
+            	 $('#NewAccountErrors .error').remove();
+				console.log(form);
+				var message = '';
+                var isContinue = true;
+                $.each(form, function(index, element){
+                    if(isContinue){
+                        // validate sunject
+                        if(element.name == 'Name'){
+                            if(!element.value.trim()){
+                                isContinue = false;
+                                message = 'Invalid Name';
+                                // for showing error message below element
+                                // showMessageBelowElement(element, message);
+                            }
+                        }
+                        else if(element.name == 'Email'){
+                            if(!element.value.trim()){
+                                message = 'Invalid Email';
+                                isContinue = false;
+                            }
+                        }
+                    }
+                });
+                if(message){
+	                message = createErrorMessage(message);
+	                // print messages
+	                $('#NewAccountErrors').prepend(message);
+	            }
+                return isContinue;
+            }
+
+            // create error message div
+            function createErrorMessage(message){
+            	return '<div class="error">' + message + '</div>';
+			}
+
+			// Shows message below element
+			function showMessageBelowElement(element, message){
+				/*var errorNode = document.createElement('div');
+		    	errorNode.className = 'text error';
+		    	errorNode.innerHTML = message;
+		    	element.parentNode.appendChild(errorNode); */
+		    	message = createErrorMessage(message);
+		    	$(element).parent().append(message);
+			}
+		</script>
+	</body>
+</html>
